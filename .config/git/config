@@ -1,0 +1,23 @@
+[user]
+	email = ritikkne@gmail.com
+	name = dev-ritik
+	signingkey = 1FCAB35BCE103F2F
+[core]
+	editor = nvim
+
+[github]
+    user = dev-ritik
+
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+
+[color "diff"]
+	meta = yellow
+	frag = magenta bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse

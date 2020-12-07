@@ -47,3 +47,23 @@ for using `q` as cd at exit [ref](https://github.com/gokcehan/lf/issues/140).
 
 ### Zathura
 [Zathura](https://pwmt.org/projects/zathura/) is a highly customizable and functional document viewer, mainly PDFs. 
+
+### Zsh
+Zsh is a shell arguably better than bash for day to day stuff. It adds a lot of features to the shell experience. 
+- No `oh-my-zsh` here. Sourcing stuff in rc files myself.
+- Usual helpful shortcuts that `oh-my-zsh` provides
+- `Powerline10k` theme
+- `XDG` compliant environment variables
+- Vi mode improvements
+- [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
+- [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+- [zsh_command_not_found](https://packages.ubuntu.com/search?keywords=command-not-found)
+- [zsh-you-should-use](https://github.com/MichaelAquilina/zsh-you-should-use)
+- [history-substring-search](https://superuser.com/a/585004)
+- Useful aliases
+- `cless` and `ccat` for coloured formatted output
+- Other rather personal aliases: weather, background blur camera, internet connectivity status, broadband connect, `newsboat`, wifi forwarder
+
+### Bash
+bash is the secondary shell and configs are light. Aliases and env files are sourced by both of them.
+Hence some of the above features are shared here as well.

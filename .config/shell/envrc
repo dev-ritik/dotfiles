@@ -1,0 +1,257 @@
+#!/bin/sh
+
+export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
+export XDG_CACHE_HOME=${XDG_CACHE_HOME:="$HOME/.cache"}
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$HOME/.config"}
+
+export ZDOTDIR=$HOME/.config/zsh
+
+export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
+export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
+
+export CUDA_CACHE_PATH="$XDG_CACHE_HOME"/nv
+
+export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials
+export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
+
+# pyenv
+# export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
+# export PATH="$PYENV_ROOT/bin:$PATH"
+# if command -v pyenv 1>/dev/null 2>&1; then
+#   eval "$(pyenv init -)"
+# fi
+
+# sdkman
+export SDKMAN_DIR="$XDG_DATA_HOME/sdkman"
+source "/home/ritik/.local/share/sdkman/bin/sdkman-init.sh"
+
+# Vagrant
+export VAGRANT_HOME="$XDG_DATA_HOME"/vagrant
+export VAGRANT_ALIAS_FILE="$XDG_DATA_HOME"/vagrant/aliases
+
+export WORKON_HOME=$HOME/.config/virtualenvs
+
+# less
+export LESSKEY="$XDG_CONFIG_HOME"/less/lesskey
+# Disable less hist files
+export LESSHISTFILE=-
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# wget
+export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wget/wgetrc"
+
+# go
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH="$XDG_DATA_HOME"/go
+export PATH=$PATH:$GOPATH/bin
+
+# Nodenv
+export NODENV_ROOT="$XDG_DATA_HOME"/nodenv
+export PATH="$XDG_DATA_HOME/nodenv/bin:$PATH"
+eval "$(nodenv init -)"
+
+# # >>> conda initialize >>>
+# # !! Contents within this block are managed by 'conda init' !!
+# __conda_setup="$('/home/ritik/.local/share/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/home/ritik/.local/share/anaconda3/etc/profile.d/conda.sh" ]; then
+#         . "/home/ritik/.local/share/anaconda3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/home/ritik/.local/share/anaconda3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
+# <<< conda initialize <<<
+
+
+# export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
+
+# export PATH=$PATH:/media/ritik/Ritik/cse_work/scripts/ModiScript/modiscript
+# export PATH=$PATH:/media/ritik/Ritik/cse_work/scripts/people/bin
+# export PATH="$PATH:/usr/lib/gcc/x86_64-linux-gnu/7"
+
+# EB
+export PATH="/home/ritik/.ebcli-virtual-env/executables:$PATH"
+
+export PATH="/home/ritik/lib:$PATH"
+
+# Colored man pages!
+# Start blinking
+export LESS_TERMCAP_mb=$(tput bold; tput setaf 2) # green
+# Start bold
+export LESS_TERMCAP_md=$(tput bold; tput setaf 2) # green
+# Start stand out
+export LESS_TERMCAP_so=$(tput bold; tput setaf 3) # yellow
+# End standout
+export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
+# Start underline
+export LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 1) # red
+# End Underline
+export LESS_TERMCAP_ue=$(tput sgr0)
+# End bold, blinking, standout, underline
+export LESS_TERMCAP_me=$(tput sgr0)
+
+export LF_ICONS="\
+di=:\
+fi=:\
+ln=:\
+or=:\
+ex=:\
+*.vimrc=:\
+*.viminfo=:\
+*.gitignore=:\
+*.c=:\
+*.cc=:\
+*.clj=:\
+*.coffee=:\
+*.cpp=:\
+*.css=:\
+*.d=:\
+*.dart=:\
+*.erl=:\
+*.exs=:\
+*.fs=:\
+*.go=:\
+*.h=:\
+*.hh=:\
+*.hpp=:\
+*.hs=:\
+*.html=:\
+*.java=:\
+*.jl=:\
+*.js=:\
+*.json=:\
+*.lua=:\
+*.md=:\
+*.php=:\
+*.pl=:\
+*.pro=:\
+*.py=:\
+*.rb=:\
+*.rs=:\
+*.scala=:\
+*.ts=:\
+*.vim=:\
+*.cmd=:\
+*.ps1=:\
+*.sh=:\
+*.bash=:\
+*.zsh=:\
+*.fish=:\
+*.tar=:\
+*.tgz=:\
+*.arc=:\
+*.arj=:\
+*.taz=:\
+*.lha=:\
+*.lz4=:\
+*.lzh=:\
+*.lzma=:\
+*.tlz=:\
+*.txz=:\
+*.tzo=:\
+*.t7z=:\
+*.zip=:\
+*.z=:\
+*.dz=:\
+*.gz=:\
+*.lrz=:\
+*.lz=:\
+*.lzo=:\
+*.xz=:\
+*.zst=:\
+*.tzst=:\
+*.bz2=:\
+*.bz=:\
+*.tbz=:\
+*.tbz2=:\
+*.tz=:\
+*.deb=:\
+*.rpm=:\
+*.jar=:\
+*.war=:\
+*.ear=:\
+*.sar=:\
+*.rar=:\
+*.alz=:\
+*.ace=:\
+*.zoo=:\
+*.cpio=:\
+*.7z=:\
+*.rz=:\
+*.cab=:\
+*.wim=:\
+*.swm=:\
+*.dwm=:\
+*.esd=:\
+*.jpg=:\
+*.jpeg=:\
+*.mjpg=:\
+*.mjpeg=:\
+*.gif=:\
+*.bmp=:\
+*.pbm=:\
+*.pgm=:\
+*.ppm=:\
+*.tga=:\
+*.xbm=:\
+*.xpm=:\
+*.tif=:\
+*.tiff=:\
+*.png=:\
+*.svg=:\
+*.svgz=:\
+*.mng=:\
+*.pcx=:\
+*.mov=:\
+*.mpg=:\
+*.mpeg=:\
+*.m2v=:\
+*.mkv=:\
+*.webm=:\
+*.ogm=:\
+*.mp4=:\
+*.m4v=:\
+*.mp4v=:\
+*.vob=:\
+*.qt=:\
+*.nuv=:\
+*.wmv=:\
+*.asf=:\
+*.rm=:\
+*.rmvb=:\
+*.flc=:\
+*.avi=:\
+*.fli=:\
+*.flv=:\
+*.gl=:\
+*.dl=:\
+*.xcf=:\
+*.xwd=:\
+*.yuv=:\
+*.cgm=:\
+*.emf=:\
+*.ogv=:\
+*.ogx=:\
+*.aac=:\
+*.au=:\
+*.flac=:\
+*.m4a=:\
+*.mid=:\
+*.midi=:\
+*.mka=:\
+*.mp3=:\
+*.mpc=:\
+*.ogg=:\
+*.ra=:\
+*.wav=:\
+*.oga=:\
+*.opus=:\
+*.spx=:\
+*.xspf=:\
+*.pdf=:\
+*.nix=:\
+"

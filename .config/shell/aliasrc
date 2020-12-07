@@ -1,0 +1,175 @@
+#!/bin/sh
+
+export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
+export XDG_CACHE_HOME=${XDG_CACHE_HOME:="$HOME/.cache"}
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$HOME/.config"}
+
+# Use neovim for vim if present.
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+
+# Verbosity and settings that you pretty much just always are going to want.
+alias \
+  cp="cp -ivr" \
+  mv="mv -iv" \
+  rm="rm -vI" \
+  mkd="mkdir -pv" \
+
+# Colorize commands when possible.
+alias \
+  ls="ls -hN --color=auto --group-directories-first" \
+  la="ls -A --color=auto --group-directories-first" \
+  ll="ls -hNlaF --color=auto --group-directories-first" \
+  grep="grep --color=auto" \
+  diff="diff --color=auto"
+
+# These common commands are just too long! Abbreviate them.
+alias \
+  sdn="sudo shutdown -h now" \
+  z="zathura" \
+  lock='gnome-screensaver-command -l' \
+  pls='sudo'
+
+alias \
+  magit="nvim -c MagitOnly" \
+  tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf" \
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+
+alias g='git'
+alias gst='git status'
+alias gc='git commit'
+alias ga='git add'
+alias gpl='git pull'
+alias gpom='git pull origin master'
+alias gpu='git push'
+alias gpuom='git push origin master'
+alias gd='git diff'
+alias gch='git checkout'
+alias gnb='git checkout -b'
+alias gac='git add . && git commit'
+alias grs='git restore --staged .'
+alias gre='git restore'
+alias gr='git remote'
+alias gcl='git clone'
+alias glg="git log --graph --abbrev-commit --decorate --format=format:'%C(bold green)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold yellow)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
+alias gt='git ls-tree -r master --name-only'
+alias grm='git remote'
+alias gb='git branch'
+alias gm='git merge'
+alias gf='git fetch'
+alias dog='git log --all --decorate --oneline --graph'
+
+# Custom
+export WORK_DIR=/media/ritik/Ritik/cse_work
+alias work='cd $WORK_DIR'
+alias appi='cd $WORK_DIR/network/appi'
+
+function mkcd() {
+  mkdir "$1"
+  cd "$1"
+}
+
+# cd when exiting lf
+# Use lc to switch directories and bind it to ctrl-o
+lc () {                        
+    tmp="$(mktemp)"
+    lf --last-dir-path="$tmp" "$@" 
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        if [ -d "$dir" ]; then
+            if [ "$dir" != "$(pwd)" ]; then
+                cd "$dir"
+            fi
+        fi
+    fi
+}
+
+# Colourized less output
+cless() {
+	case "$1" in
+		*.md) glow -s dark "$1" | less -r;;
+  		*) highlight -O ansi "$1" --force | less -r;;
+  	esac
+}
+
+# Colourized cat output
+ccat() {
+	case "$1" in
+  		*.md) glow -s dark "$1";;
+  		*) highlight -O ansi "$1" --force;;
+	esac
+}
+
+# alias weather='curl wttr.in/'
+weather () { curl wttr.in/"$@"; }
+
+# Blurcam
+# https://github.com/fangfufu/Linux-Fake-Background-Webcam
+blurcam () {
+	sudo modprobe v4l2loopback devices=1 video_nr=2 card_label="background" exclusive_caps=1;
+	cd ~/lib/Linux-Fake-Background-Webcam;
+	docker-compose up;
+}
+
+pingjob() {
+	# Notify if the state of internet connection changes
+	if ping -c 2 8.8.8.8 &> /dev/null
+  	then
+    	echo "Internet accessible"
+	    while true; do
+		    ping -c 2 8.8.8.8 &> /dev/null || { notify-send "Broadband" "Failed" && return 0; };
+		    sleep 5;
+	    done;
+  	else
+    	echo "No internet"
+	    while true; do
+		    ping -c 2 8.8.8.8 &> /dev/null && notify-send "Internet" "Working" && return 0;
+		    sleep 5;
+	    done
+  	fi 
+}
+
+# Alliance Broadband
+connect() {
+	# Verify device with Alliance Broadband for internet access.
+  	ping -c 2 8.8.8.8 > /dev/null && echo "Internet accessible" || echo "No internet"
+  	source $XDG_CONFIG_HOME/shell/.alliance_creds;
+  	until [ $(curl -ksS -w "%{http_code}" -o /dev/null -X POST -d "login=Login&user="${ALLIANCE_USER}"&pass="${ALLIANCE_PASSWD}"" "${ALLIANCE_URL}") = "200" ]; do
+	    sleep 2
+	    echo "Connection Failing";
+	done
+  	echo "Authenticated";
+  	ping -c 2 8.8.8.8 > /dev/null && notify-send "Internet" "Working" || notify-send "Broadband" "Failed";
+}
+
+newsboat() {
+  # Rss feed reader with scraper program
+	echo "Initializing background process"
+	$HOME/proj/flipkart_scraper/main.py > /dev/null 2>&1 &
+	sleep 1
+	command newsboat "$@"
+	echo "Exiting"
+	kill $!
+}
+
+wififorwarding() {
+	# Forward traffic on the wifi interface to other interface allowing making wifi node as default gateway
+	# for other peers in the wifi network. This can be used for providing internet access when working in wifi
+	# mode and not in hotspot mode.
+	# Use wififorwarding wifi_interface internet_interface
+
+	sudo echo 1 > /proc/sys/net/ipv4/ip_forward
+	sudo iptables -A FORWARD -i "$1" -o "$2" -j ACCEPT
+	sudo iptables -A FORWARD -i "$2" -o "$1" -m state --state ESTABLISHED,RELATED -j ACCEPT
+	sudo iptables -t nat -A POSTROUTING -o "$2" -j MASQUERADE
+
+	MY_IP=$(ifconfig "$1" | grep 'inet ' | awk '{print $2}')
+	echo "Set the DNS server as required on the peers."
+	echo "Run the command similar to below to add default route in the peers:\n"
+	echo "sudo ip route add default via ${MY_IP} dev wlan0"
+}

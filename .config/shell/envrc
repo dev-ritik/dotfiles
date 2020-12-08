@@ -15,7 +15,7 @@ export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials
 export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
 
 # pyenv
-# export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
+export PYENV_ROOT="$XDG_DATA_HOME/pyenv"
 # export PATH="$PYENV_ROOT/bin:$PATH"
 # if command -v pyenv 1>/dev/null 2>&1; then
 #   eval "$(pyenv init -)"
@@ -23,7 +23,7 @@ export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
 
 # sdkman
 export SDKMAN_DIR="$XDG_DATA_HOME/sdkman"
-source "/home/ritik/.local/share/sdkman/bin/sdkman-init.sh"
+# source "$XDG_DATA_HOME/sdkman/bin/sdkman-init.sh"
 
 # Vagrant
 export VAGRANT_HOME="$XDG_DATA_HOME"/vagrant
@@ -49,7 +49,7 @@ export PATH=$PATH:$GOPATH/bin
 # Nodenv
 export NODENV_ROOT="$XDG_DATA_HOME"/nodenv
 export PATH="$XDG_DATA_HOME/nodenv/bin:$PATH"
-eval "$(nodenv init -)"
+# eval "$(nodenv init -)"
 
 # # >>> conda initialize >>>
 # # !! Contents within this block are managed by 'conda init' !!
@@ -94,6 +94,7 @@ export LESS_TERMCAP_ue=$(tput sgr0)
 # End bold, blinking, standout, underline
 export LESS_TERMCAP_me=$(tput sgr0)
 
+# Used by lf as icons
 export LF_ICONS="\
 di=:\
 fi=:\

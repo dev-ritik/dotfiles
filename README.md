@@ -1,8 +1,6 @@
 # My dotfiles
 Config files for programs to set up a system the way I like it.
 
-Use `./bootstrap.sh` to symlink these configs to your user's config files.
-
 ## Programs
 ### Newsboat
 [Newsboat](https://newsboat.org/) is an RSS/Atom feed reader for the text console. Apart from catching on news, I use this to check the prices of products I want to get. Check out the fantastic [RSS-Bridge](https://github.com/RSS-Bridge/rss-bridge) project.
@@ -70,6 +68,7 @@ Hence some of the above features are shared here as well.
 
 ## Installation
 Run (or manually run commands from) the `install.sh` to install individual tools and dependencies.
+Use `./bootstrap.sh` to symlink these configs to your user's config files.
 
 ## Inspiration
 Parts of the configs are 'inspired' from these sources:

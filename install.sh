@@ -4,7 +4,7 @@ XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
 XDG_CACHE_HOME=${XDG_CACHE_HOME:="$HOME/.cache"}
 XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$HOME/.config"}
 
-PATH=$(pwd)
+MY_PATH=$(pwd)
 
 # zsh
 if [ $SHELL != "/usr/bin/zsh" ]; then
@@ -20,9 +20,9 @@ if [ $SHELL != "/usr/bin/zsh" ]; then
 	echo "Default shell changed to zsh"
 
 	echo "Installing plugins"
-	wget "https://github.com/MichaelAquilina/zsh-you-should-use/blob/master/you-should-use.plugin.zsh?raw=true" -O $PATH/.config/zsh/plugins/you-should-use.plugin.zsh
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $PATH/.config/zsh/zsh-syntax-highlighting
-	git clone https://github.com/zsh-users/zsh-autosuggestions.git $PATH/.config/zsh/zsh-autosuggestions
+	wget "https://github.com/MichaelAquilina/zsh-you-should-use/blob/master/you-should-use.plugin.zsh?raw=true" -O $MY_PATH/.config/zsh/plugins/you-should-use.plugin.zsh
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $MY_PATH/.config/zsh/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-autosuggestions.git $MY_PATH/.config/zsh/zsh-autosuggestions
 	echo ""
 
 	echo "Re-login"
@@ -33,12 +33,13 @@ fi
 sudo apt-get -y install neofetch
 
 # Fonts
-if [ ! -f $XDG_DATA_HOME/fonts/Hack\ Regular\ Nerd\ Font\ Complete.ttf ]; then
+if [ ! -f $XDG_DATA_HOME/fonts/Ubuntu\ Mono\ Nerd\ Font\ Complete\ Mono.ttf ]; then
 	echo "Installing fonts"
 	wget "https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Bold/complete/Hack%20Bold%20Nerd%20Font%20Complete.ttf?raw=true" -O $XDG_DATA_HOME/fonts/Hack\ Bold\ Nerd\ Font\ Complete.ttf
 	wget "https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/BoldItalic/complete/Hack%20Bold%20Italic%20Nerd%20Font%20Complete.ttf?raw=true" -O $XDG_DATA_HOME/fonts/Hack\ Bold\ Italic\ Nerd\ Font\ Complete.ttf
 	wget "https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Italic/complete/Hack%20Italic%20Nerd%20Font%20Complete.ttf?raw=true" -O $XDG_DATA_HOME/fonts/Hack\ Italic\ Nerd\ Font\ Complete.ttf
 	wget "https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Hack/Regular/complete/Hack%20Regular%20Nerd%20Font%20Complete.ttf?raw=true" -O $XDG_DATA_HOME/fonts/Hack\ Regular\ Nerd\ Font\ Complete.ttf
+	wget "https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/UbuntuMono/Regular/complete/Ubuntu%20Mono%20Nerd%20Font%20Complete%20Mono.ttf?raw=true" -O $XDG_DATA_HOME/fonts/Ubuntu\ Mono\ Nerd\ Font\ Complete\ Mono.ttf
 	fc-cache -f -v
 	echo "Reopen the terminal and set Hack\ Regular\ Nerd\ Font\ Complete.ttf as your terminal font"
 fi
@@ -58,11 +59,11 @@ if ! [ -x "$(command -v lf)" ]; then
 fi
 
 # link vimrc
-ln -sf $PATH/.config/nvim/init.vim $HOME/.vimrc
+ln -sf $MY_PATH/.config/nvim/init.vim $HOME/.vimrc
 
 # bash
-ln -sf $PATH/.config/.bash_profile $HOME/.bash_profile
-ln -sf $PATH/.config/.bashrc $HOME/.bashrc
+ln -sf $MY_PATH/.config/.bash_profile $HOME/.bash_profile
+ln -sf $MY_PATH/.config/.bashrc $HOME/.bashrc
 
 # Neovim (New vim!)
 sudo apt-get install neovim
@@ -95,10 +96,10 @@ sudo apt install highlight
 sudo apt install zathura
 
 # Newsboat (RSS/Atom feed reader)
-sudo apt install newsboa
+sudo apt install newsboat
 
 # sxiv (Image Viewer)
 sudo apt install sxiv
 
 # Auto-hide the Dock, Click to minimise
-gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize'
+# gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize'

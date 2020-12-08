@@ -67,3 +67,17 @@ Zsh is a shell arguably better than bash for day to day stuff. It adds a lot of 
 ### Bash
 bash is the secondary shell and configs are light. Aliases and env files are sourced by both of them.
 Hence some of the above features are shared here as well.
+
+## Installation
+Run (or manually run commands from) the `install.sh` to install individual tools and dependencies.
+
+## Inspiration
+Parts of the configs are 'inspired' from these sources:
+- [Luke's configs](https://github.com/LukeSmithxyz/voidrice)
+- [Brodie's configs](https://github.com/BrodieRobertson/dotfiles)
+- [Jogendra's configs](https://github.com/jogendra/dotfiles)
+- [Abhay aka Nemo's configs](https://github.com/captn3m0/dotfiles)
+- [Dakshit's configs](https://github.com/dakshitagrawal97/.cfg)
+
+## Contributions
+All contributions are welcome and appreciated.

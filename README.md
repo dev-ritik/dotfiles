@@ -27,9 +27,9 @@ It supports preview for general file types as well.
 _Good terminal-based image preview is yet to be added_
 I have added a shell function
 ```
-lc () {                        
+lc () {
     tmp="$(mktemp)"
-    lf --last-dir-path="$tmp" "$@" 
+    lf --last-dir-path="$tmp" "$@"
     if [ -f "$tmp" ]; then
         dir="$(cat "$tmp")"
         rm -f "$tmp"
@@ -44,10 +44,10 @@ lc () {
 for using `q` as cd at exit [ref](https://github.com/gokcehan/lf/issues/140).
 
 ### Zathura
-[Zathura](https://pwmt.org/projects/zathura/) is a highly customizable and functional document viewer, mainly PDFs. 
+[Zathura](https://pwmt.org/projects/zathura/) is a highly customizable and functional document viewer, mainly PDFs.
 
 ### Zsh
-Zsh is a shell arguably better than bash for day to day stuff. It adds a lot of features to the shell experience. 
+Zsh is a shell arguably better than bash for day to day stuff. It adds a lot of features to the shell experience.
 - No `oh-my-zsh` here. Sourcing stuff in rc files myself.
 - Usual helpful shortcuts that `oh-my-zsh` provides
 - `Powerline10k` theme
@@ -60,7 +60,7 @@ Zsh is a shell arguably better than bash for day to day stuff. It adds a lot of 
 - [history-substring-search](https://superuser.com/a/585004)
 - Useful aliases
 - `cless` and `ccat` for coloured formatted output
-- Other rather personal aliases: weather, background blur camera, internet connectivity status, broadband connect, `newsboat`, wifi forwarder
+- Other rather personal aliases: weather, background blur camera, internet connectivity status, broadband connect, `newsboat`, wifi forwarder, Hotspot
 
 ### Bash
 bash is the secondary shell and configs are light. Aliases and env files are sourced by both of them.

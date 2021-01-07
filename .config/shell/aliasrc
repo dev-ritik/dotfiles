@@ -75,9 +75,9 @@ function mkcd() {
 
 # cd when exiting lf
 # Use lc to switch directories and bind it to ctrl-o
-lc () {                        
+lc () {
     tmp="$(mktemp)"
-    lf --last-dir-path="$tmp" "$@" 
+    lf --last-dir-path="$tmp" "$@"
     if [ -f "$tmp" ]; then
         dir="$(cat "$tmp")"
         rm -f "$tmp"
@@ -131,7 +131,7 @@ pingjob() {
 		    ping -c 2 8.8.8.8 &> /dev/null && notify-send "Internet" "Working" && return 0;
 		    sleep 5;
 	    done
-  	fi 
+  	fi
 }
 
 # Alliance Broadband
@@ -172,4 +172,15 @@ wififorwarding() {
 	echo "Set the DNS server as required on the peers."
 	echo "Run the command similar to below to add default route in the peers:\n"
 	echo "sudo ip route add default via ${MY_IP} dev wlan0"
+}
+
+hotspot() {
+	# Toggle Hotspot using cli
+	if [ $@ = "on" ]; then
+		# Start the wifi-hotspot (only when it's not up already)
+		nmcli -t -f NAME,STATE con | grep -q Hotspot:activated || {nmcli radio wifi on && sleep 1 && nmcli connection up Hotspot}
+	else
+		# Stop the Hotspot (by turning the wifi off)
+		nmcli radio wifi off
+	fi
 }

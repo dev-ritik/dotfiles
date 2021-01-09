@@ -60,7 +60,7 @@ Zsh is a shell arguably better than bash for day to day stuff. It adds a lot of 
 - [history-substring-search](https://superuser.com/a/585004)
 - Useful aliases
 - `cless` and `ccat` for coloured formatted output
-- Other rather personal aliases: weather, background blur camera, internet connectivity status, broadband connect, `newsboat`, wifi forwarder, Hotspot
+- Other rather personal aliases: weather, background blur camera, internet connectivity status, broadband connect, `newsboat`, wifi forwarder, Hotspot, DNS (via Pihole)
 
 ### Bash
 bash is the secondary shell and configs are light. Aliases and env files are sourced by both of them.

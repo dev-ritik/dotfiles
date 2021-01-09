@@ -148,7 +148,7 @@ connect() {
 }
 
 newsboat() {
-  # Rss feed reader with scraper program
+  	# Rss feed reader with scraper program
 	echo "Initializing background process"
 	$HOME/proj/flipkart_scraper/main.py > /dev/null 2>&1 &
 	sleep 1
@@ -157,7 +157,7 @@ newsboat() {
 	kill $!
 }
 
-wififorwarding() {
+wifi_forwarding() {
 	# Forward traffic on the wifi interface to other interface allowing making wifi node as default gateway
 	# for other peers in the wifi network. This can be used for providing internet access when working in wifi
 	# mode and not in hotspot mode.
@@ -182,5 +182,36 @@ hotspot() {
 	else
 		# Stop the Hotspot (by turning the wifi off)
 		nmcli radio wifi off
+	fi
+}
+
+dns_pihole() {
+	# Pihole DNS controls
+	if [ $@ = "on" ]; then
+		# Use Pihole DNS
+		sudo sed -r -i.orig '/nameserver.*$/ d' /run/systemd/resolve/resolv.conf && echo 'nameserver 127.0.0.1' | sudo tee -a /run/systemd/resolve/resolv.conf
+		docker start pihole
+	elif [ $@ = "off" ]; then
+		# Stop Pihole DNS and use plain DNS
+		sudo sed -r -i.orig '/nameserver.*$/ d' /run/systemd/resolve/resolv.conf && echo 'nameserver 8.8.8.8' | sudo tee -a /run/systemd/resolve/resolv.conf
+		docker stop pihole
+	elif [ $@ = "start" ]; then
+		# Start Pihole and setup DNS
+		sudo killall -9 dnsmasq
+		cd ~/proj/pihole;
+		docker-compose up -d;
+		sudo sed -r -i.orig '/nameserver.*$/ d' /run/systemd/resolve/resolv.conf && echo 'nameserver 127.0.0.1' | sudo tee -a /run/systemd/resolve/resolv.conf
+	elif [ $@ = "status" ]; then
+		# Print Debug info on Pihole and DNS
+		echo "-----------------Nameserver--------------"
+		cat /etc/resolv.conf | grep nameserver;
+		echo "------------------Docker-----------------"
+		docker ps --filter "name=pihole";
+		echo ""
+		docker logs --tail 10 pihole
+		echo ""
+		echo "-----------------Netstat-----------------"
+		# 67: DHCP, 53: DNS, 5053: Cloudflared DoH
+		sudo netstat -ltnpu | egrep ':67\s|:53\s|:5053'
 	fi
 }

@@ -118,17 +118,17 @@ blurcam () {
 
 pingjob() {
 	# Notify if the state of internet connection changes
-	if ping -c 2 8.8.8.8 &> /dev/null
+	if ping -W 3 -c 2 8.8.8.8 &> /dev/null
   	then
     	echo "Internet accessible"
 	    while true; do
-		    ping -c 2 8.8.8.8 &> /dev/null || { notify-send "Broadband" "Failed" && return 0; };
+		    ping -W 3 -c 2 8.8.8.8 &> /dev/null || { notify-send "Broadband" "Failed" && return 0; };
 		    sleep 5;
 	    done;
   	else
     	echo "No internet"
 	    while true; do
-		    ping -c 2 8.8.8.8 &> /dev/null && notify-send "Internet" "Working" && return 0;
+		    ping -W 3 -c 2 8.8.8.8 &> /dev/null && notify-send "Internet" "Working" && return 0;
 		    sleep 5;
 	    done
   	fi
@@ -137,14 +137,14 @@ pingjob() {
 # Alliance Broadband
 connect() {
 	# Verify device with Alliance Broadband for internet access.
-  	ping -c 2 8.8.8.8 > /dev/null && echo "Internet accessible" || echo "No internet"
+  	ping -c 2 8.8.8.8 -W 3 > /dev/null && echo "Internet accessible" || echo "No internet"
   	source $XDG_CONFIG_HOME/shell/.alliance_creds;
-  	until [ $(curl -ksS -w "%{http_code}" -o /dev/null -X POST -d "login=Login&user="${ALLIANCE_USER}"&pass="${ALLIANCE_PASSWD}"" "${ALLIANCE_URL}") = "200" ]; do
-	    sleep 2
+  	until [ $(curl -ksS -w "%{http_code}" -o /dev/null --connect-timeout 3 --max-time 4 -X POST -d "login=Login&user="${ALLIANCE_USER}"&pass="${ALLIANCE_PASSWD}"" "${ALLIANCE_URL}") = "200" ]; do
+	    sleep 1
 	    echo "Connection Failing";
 	done
   	echo "Authenticated";
-  	ping -c 2 8.8.8.8 > /dev/null && notify-send "Internet" "Working" || notify-send "Broadband" "Failed";
+  	ping -c 2 8.8.8.8 -W 3 > /dev/null && notify-send "Internet" "Working" || notify-send "Broadband" "Failed";
 }
 
 newsboat() {
@@ -189,11 +189,12 @@ dns_pihole() {
 	# Pihole DNS controls
 	if [ $@ = "on" ]; then
 		# Use Pihole DNS
+		sudo killall -9 dnsmasq 2>/dev/null
 		sudo sed -r -i.orig '/nameserver.*$/ d' /run/systemd/resolve/resolv.conf && echo 'nameserver 127.0.0.1' | sudo tee -a /run/systemd/resolve/resolv.conf
 		docker start pihole
 	elif [ $@ = "off" ]; then
 		# Stop Pihole DNS and use plain DNS
-		sudo sed -r -i.orig '/nameserver.*$/ d' /run/systemd/resolve/resolv.conf && echo 'nameserver 8.8.8.8' | sudo tee -a /run/systemd/resolve/resolv.conf
+		sudo sed -r -i.orig '/nameserver.*$/ d' /run/systemd/resolve/resolv.conf && echo 'nameserver 1.1.1.1' | sudo tee -a /run/systemd/resolve/resolv.conf
 		docker stop pihole
 	elif [ $@ = "start" ]; then
 		# Start Pihole and setup DNS
@@ -210,7 +211,15 @@ dns_pihole() {
 		echo ""
 		docker logs --tail 10 pihole
 		echo ""
+		echo "---------------Cloudflared---------------"
+		if docker exec -it pihole dig +short @127.0.0.1 -p5053 example.com A | grep -q '93.184.216.34'; then
+			echo "Cloudflared Working"
+		else
+			echo "Cloudflared Stopped"
+		fi
+		echo ""
 		echo "-----------------Netstat-----------------"
+
 		# 67: DHCP, 53: DNS, 5053: Cloudflared DoH
 		sudo netstat -ltnpu | egrep ':67\s|:53\s|:5053'
 	fi

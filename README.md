@@ -5,7 +5,7 @@ Config files for programs to set up a system the way I like it.
 ### Newsboat
 [Newsboat](https://newsboat.org/) is an RSS/Atom feed reader for the text console. Apart from catching on news, I use this to check the prices of products I want to get. Check out the fantastic [RSS-Bridge](https://github.com/RSS-Bridge/rss-bridge) project.
 I use this script,
-```
+```bash
 newsboat() {
  echo "Initializing background process"
  /home/ritik/proj/flipkart_scraper/main.py > /dev/null 2>&1 &
@@ -26,7 +26,7 @@ to run a parser for scraping Flipkart for the price of the products. Check the c
 It supports preview for general file types as well.
 _Good terminal-based image preview is yet to be added_
 I have added a shell function
-```
+```bash
 lc () {
     tmp="$(mktemp)"
     lf --last-dir-path="$tmp" "$@"

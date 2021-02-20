@@ -11,19 +11,19 @@ set -e
 echo ''
 
 info () {
-  printf "\r  [ \033[00;34m..\033[0m ] $1\n"
+  printf "\r  [ \033[00;34m..\033[0m ] %s\n" "$1"
 }
 
 user () {
-  printf "\r  [ \033[0;33m??\033[0m ] $1\n"
+  printf "\r  [ \033[0;33m??\033[0m ] %s\n" "$1"
 }
 
 success () {
-  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] %s\n" "$1"
 }
 
 fail () {
-  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"
   echo ''
   exit
 }
@@ -31,16 +31,19 @@ fail () {
 link_file () {
   local src=$1 dst=$2
 
+  # shellcheck disable=SC1007
   local overwrite= backup= skip=
   local action=
 
+  # shellcheck disable=SC2166
   if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
   then
 
     if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
     then
 
-      local currentSrc="$(readlink $dst)"
+      # shellcheck disable=SC2155
+      local currentSrc="$(readlink "$dst")"
 
       if [ "$currentSrc" == "$src" ]
       then
@@ -51,6 +54,7 @@ link_file () {
 
         user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
         [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+        # shellcheck disable=SC2162
         read -n 1 action
 
         case "$action" in
@@ -108,9 +112,10 @@ install_dotfiles () {
 
   local overwrite_all=false backup_all=false skip_all=false
 
+  # shellcheck disable=SC2044
   for src in $(find -H "$DOTFILES_ROOT"/.config -maxdepth 1 -mindepth 1)
   do
-    dst="$HOME/.config/"${src#*.config/}""
+    dst=$HOME/.config/"${src#*.config/}"
     link_file "$src" "$dst"
   done
 }

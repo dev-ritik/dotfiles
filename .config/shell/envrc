@@ -56,14 +56,14 @@ export PATH="$XDG_DATA_HOME/nodenv/bin:$PATH"
 
 # # >>> conda initialize >>>
 # # !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$('/home/ritik/.local/share/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# __conda_setup="$('$HOME/.local/share/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 # if [ $? -eq 0 ]; then
 #     eval "$__conda_setup"
 # else
-#     if [ -f "/home/ritik/.local/share/anaconda3/etc/profile.d/conda.sh" ]; then
-#         . "/home/ritik/.local/share/anaconda3/etc/profile.d/conda.sh"
+#     if [ -f "$HOME/.local/share/anaconda3/etc/profile.d/conda.sh" ]; then
+#         . "$HOME/.local/share/anaconda3/etc/profile.d/conda.sh"
 #     else
-#         export PATH="/home/ritik/.local/share/anaconda3/bin:$PATH"
+#         export PATH="$HOME/.local/share/anaconda3/bin:$PATH"
 #     fi
 # fi
 # unset __conda_setup
@@ -77,9 +77,9 @@ export PATH="$XDG_DATA_HOME/nodenv/bin:$PATH"
 # export PATH="$PATH:/usr/lib/gcc/x86_64-linux-gnu/7"
 
 # EB
-export PATH="/home/ritik/.ebcli-virtual-env/executables:$PATH"
+export PATH="$HOME/.ebcli-virtual-env/executables:$PATH"
 
-export PATH="/home/ritik/lib:$PATH"
+export PATH="$HOME/lib:$PATH"
 
 # Colored man pages!
 # Start blinking

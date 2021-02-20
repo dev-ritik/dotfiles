@@ -8,7 +8,7 @@ I use this script,
 ```bash
 newsboat() {
  echo "Initializing background process"
- /home/ritik/proj/flipkart_scraper/main.py > /dev/null 2>&1 &
+ "$HOME"/proj/flipkart_scraper/main.py > /dev/null 2>&1 &
  sleep 1
  command newsboat "$@"
  echo "Exiting"

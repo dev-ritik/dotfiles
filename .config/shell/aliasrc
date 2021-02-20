@@ -12,16 +12,15 @@ alias \
   cp="cp -ivr" \
   mv="mv -iv" \
   rm="rm -vI" \
-  mkd="mkdir -pv" \
+  mkd="mkdir -pv"
 
 # Colorize commands when possible.
-alias \
-  ls="ls -hN --color=auto --group-directories-first" \
-  la="ls -A --color=auto --group-directories-first" \
-  ll="ls -hNlaF --color=auto --group-directories-first" \
-  lsd="ls -lhF --color=always | grep --color=never '^d'" \ # directories only
-  grep="grep --color=auto" \
-  diff="diff --color=auto"
+alias ls="ls -hN --color=auto --group-directories-first"
+alias la="ls -A --color=auto --group-directories-first"
+alias ll="ls -hNlaF --color=auto --group-directories-first"
+alias lsd="ls -lhF --color=always | grep --color=never '^d'" # directories only
+alias grep="grep --color=auto"
+alias diff="diff --color=auto"
 
 # These common commands are just too long! Abbreviate them.
 alias \
@@ -32,7 +31,7 @@ alias \
 
 alias \
   magit="nvim -c MagitOnly" \
-  tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf" \
+  tmux='tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf'
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -71,159 +70,170 @@ export WORK_DIR=/media/ritik/Ritik/cse_work
 alias work='cd $WORK_DIR'
 alias appi='cd $WORK_DIR/network/appi'
 
-function mkcd() {
+mkcd() {
   mkdir "$1"
-  cd "$1"
+  cd "$1" || {
+    echo "Failed"
+    exit 1
+  }
 }
 
 # cd when exiting lf
 # Use lc to switch directories and bind it to ctrl-o
-lc () {
-    tmp="$(mktemp)"
-    lf --last-dir-path="$tmp" "$@"
-    if [ -f "$tmp" ]; then
-        dir="$(cat "$tmp")"
-        rm -f "$tmp"
-        if [ -d "$dir" ]; then
-            if [ "$dir" != "$(pwd)" ]; then
-                cd "$dir"
-            fi
-        fi
+lc() {
+  tmp="$(mktemp)"
+  lf --last-dir-path="$tmp" "$@"
+  if [ -f "$tmp" ]; then
+    dir="$(cat "$tmp")"
+    rm -f "$tmp"
+    if [ -d "$dir" ]; then
+      if [ "$dir" != "$(pwd)" ]; then
+        # shellcheck disable=SC2164
+        cd "$dir"
+      fi
     fi
+  fi
 }
 
 # Colourized less output
 cless() {
-	case "$1" in
-		*.md) glow -s dark "$1" | less -r;;
-  		*) highlight -O ansi "$1" --force | less -r;;
-  	esac
+  case "$1" in
+  *.md) glow -s dark "$1" | less -r ;;
+  *) highlight -O ansi "$1" --force | less -r ;;
+  esac
 }
 
 # Colourized cat output
 ccat() {
-	case "$1" in
-  		*.md) glow -s dark "$1";;
-  		*) highlight -O ansi "$1" --force;;
-	esac
+  case "$1" in
+  *.md) glow -s dark "$1" ;;
+  *) highlight -O ansi "$1" --force ;;
+  esac
 }
 
 # alias weather='curl wttr.in/'
-weather () { curl wttr.in/"$@"; }
+weather() { curl wttr.in/"$*"; }
 
 # Blurcam
 # https://github.com/fangfufu/Linux-Fake-Background-Webcam
-blurcam () {
-	sudo modprobe v4l2loopback devices=1 video_nr=2 card_label="background" exclusive_caps=1;
-	cd ~/lib/Linux-Fake-Background-Webcam;
-	docker-compose up;
+blurcam() {
+  sudo modprobe v4l2loopback devices=1 video_nr=2 card_label="background" exclusive_caps=1
+  docker-compose -f "$HOME"/Documents/Linux-Fake-Background-Webcam/docker-compose.yml up
 }
 
 pingjob() {
-	# Notify if the state of internet connection changes
-	if ping -W 3 -c 2 8.8.8.8 &> /dev/null
-  	then
-    	echo "Internet accessible"
-	    while true; do
-		    ping -W 3 -c 2 8.8.8.8 &> /dev/null || { notify-send "Broadband" "Failed" && return 0; };
-		    sleep 5;
-	    done;
-  	else
-    	echo "No internet"
-	    while true; do
-		    ping -W 3 -c 2 8.8.8.8 &> /dev/null && notify-send "Internet" "Working" && return 0;
-		    sleep 5;
-	    done
-  	fi
+  # Notify if the state of internet connection changes
+  # shellcheck disable=SC2039
+  if ping -W 3 -c 2 8.8.8.8 &>/dev/null; then
+    echo "Internet accessible"
+    while true; do
+      ping -W 3 -c 2 8.8.8.8 &>/dev/null || { notify-send "Broadband" "Failed" && return 0; }
+      sleep 5
+    done
+  else
+    echo "No internet"
+    while true; do
+      ping -W 3 -c 2 8.8.8.8 &>/dev/null && notify-send "Internet" "Working" && return 0
+      sleep 5
+    done
+  fi
 }
 
 # Alliance Broadband
 connect() {
-	# Verify device with Alliance Broadband for internet access.
-  	ping -c 2 8.8.8.8 -W 3 > /dev/null && echo "Internet accessible" || echo "No internet"
-  	source $XDG_CONFIG_HOME/shell/.alliance_creds;
-  	until [ $(curl -ksS -w "%{http_code}" -o /dev/null --connect-timeout 3 --max-time 4 -X POST -d "login=Login&user="${ALLIANCE_USER}"&pass="${ALLIANCE_PASSWD}"" "${ALLIANCE_URL}") = "200" ]; do
-	    sleep 1
-	    echo "Connection Failing";
-	done
-  	echo "Authenticated";
-  	ping -c 2 8.8.8.8 -W 3 > /dev/null && notify-send "Internet" "Working" || notify-send "Broadband" "Failed";
+  # Verify device with Alliance Broadband for internet access.
+  ping -c 2 8.8.8.8 -W 3 >/dev/null && echo "Internet accessible" || echo "No internet"
+  # shellcheck disable=SC2039
+  source "$XDG_CONFIG_HOME"/shell/.alliance_creds
+  until [ "$(curl -ksS -w "%{http_code}" -o /dev/null --connect-timeout 3 --max-time 4 -X POST -d "login=Login&user=${ALLIANCE_USER}&pass=${ALLIANCE_PASSWD}" "${ALLIANCE_URL}")" = "200" ]; do
+    sleep 1
+    echo "Connection Failing"
+  done
+  echo "Authenticated"
+  if ping -c 2 8.8.8.8 -W 3 >/dev/null; then
+    notify-send "Internet" "Working"
+  else
+    notify-send "Broadband" "Failed"
+  fi
 }
 
 newsboat() {
-  	# Rss feed reader with scraper program
-	echo "Initializing background process"
-	$HOME/proj/flipkart_scraper/main.py > /dev/null 2>&1 &
-	sleep 1
-	command newsboat "$@"
-	echo "Exiting"
-	kill $!
+  # Rss feed reader with scraper program
+  echo "Initializing background process"
+  "$HOME"/proj/flipkart_scraper/main.py >/dev/null 2>&1 &
+  sleep 1
+  command newsboat "$@"
+  echo "Exiting"
+  kill $!
 }
 
 wifi_forwarding() {
-	# Forward traffic on the wifi interface to other interface allowing making wifi node as default gateway
-	# for other peers in the wifi network. This can be used for providing internet access when working in wifi
-	# mode and not in hotspot mode.
-	# Use wififorwarding wifi_interface internet_interface
+  # Forward traffic on the wifi interface to other interface allowing making wifi node as default gateway
+  # for other peers in the wifi network. This can be used for providing internet access when working in wifi
+  # mode and not in hotspot mode.
+  # Use wifi_forwarding wifi_interface internet_interface
 
-	sudo echo 1 > /proc/sys/net/ipv4/ip_forward
-	sudo iptables -A FORWARD -i "$1" -o "$2" -j ACCEPT
-	sudo iptables -A FORWARD -i "$2" -o "$1" -m state --state ESTABLISHED,RELATED -j ACCEPT
-	sudo iptables -t nat -A POSTROUTING -o "$2" -j MASQUERADE
+  echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward >/dev/null
+  sudo iptables -A FORWARD -i "$1" -o "$2" -j ACCEPT
+  sudo iptables -A FORWARD -i "$2" -o "$1" -m state --state ESTABLISHED,RELATED -j ACCEPT
+  sudo iptables -t nat -A POSTROUTING -o "$2" -j MASQUERADE
 
-	MY_IP=$(ifconfig "$1" | grep 'inet ' | awk '{print $2}')
-	echo "Set the DNS server as required on the peers."
-	echo "Run the command similar to below to add default route in the peers:\n"
-	echo "sudo ip route add default via ${MY_IP} dev wlan0"
+  MY_IP=$(ifconfig "$1" | grep 'inet ' | awk '{print $2}')
+  echo "Set the DNS server as required on the peers."
+  printf "Run the command similar to below to add default route in the peers:\n\n"
+  echo "sudo ip route add default via ${MY_IP} dev wlan0"
 }
 
 hotspot() {
-	# Toggle Hotspot using cli
-	if [ $@ = "on" ]; then
-		# Start the wifi-hotspot (only when it's not up already)
-		nmcli -t -f NAME,STATE con | grep -q Hotspot:activated || {nmcli radio wifi on && sleep 1 && nmcli connection up Hotspot}
-	else
-		# Stop the Hotspot (by turning the wifi off)
-		nmcli radio wifi off
-	fi
+  # Toggle Hotspot using cli
+  if [ "$1" = "on" ]; then
+    # Start the wifi-hotspot (only when it's not up already)
+    if ! nmcli -t -f NAME,STATE con | grep -q Hotspot:activated; then
+      nmcli radio wifi on
+      sleep 0.5
+      nmcli connection up Hotspot
+    fi
+  else
+    # Stop the Hotspot (by turning the wifi off)
+    nmcli radio wifi off
+  fi
 }
 
 dns_pihole() {
-	# Pihole DNS controls
-	if [ $@ = "on" ]; then
-		# Use Pihole DNS
-		sudo killall -9 dnsmasq 2>/dev/null
-		sudo sed -r -i.orig '/nameserver.*$/ d' /run/systemd/resolve/resolv.conf && echo 'nameserver 127.0.0.1' | sudo tee -a /run/systemd/resolve/resolv.conf
-		docker start pihole
-	elif [ $@ = "off" ]; then
-		# Stop Pihole DNS and use plain DNS
-		sudo sed -r -i.orig '/nameserver.*$/ d' /run/systemd/resolve/resolv.conf && echo 'nameserver 1.1.1.1' | sudo tee -a /run/systemd/resolve/resolv.conf
-		docker stop pihole
-	elif [ $@ = "start" ]; then
-		# Start Pihole and setup DNS
-		sudo killall -9 dnsmasq
-		cd ~/proj/pihole;
-		docker-compose up -d;
-		sudo sed -r -i.orig '/nameserver.*$/ d' /run/systemd/resolve/resolv.conf && echo 'nameserver 127.0.0.1' | sudo tee -a /run/systemd/resolve/resolv.conf
-	elif [ $@ = "status" ]; then
-		# Print Debug info on Pihole and DNS
-		echo "-----------------Nameserver--------------"
-		cat /etc/resolv.conf | grep nameserver;
-		echo "------------------Docker-----------------"
-		docker ps --filter "name=pihole";
-		echo ""
-		docker logs --tail 10 pihole
-		echo ""
-		echo "---------------Cloudflared---------------"
-		if docker exec -it pihole dig +short @127.0.0.1 -p5053 example.com A | grep -q '93.184.216.34'; then
-			echo "Cloudflared Working"
-		else
-			echo "Cloudflared Stopped"
-		fi
-		echo ""
-		echo "-----------------Netstat-----------------"
+  # Pihole DNS controls
+  if [ "$1" = "on" ]; then
+    # Use Pihole DNS
+    sudo killall -9 dnsmasq 2>/dev/null
+    sudo sed -r -i.orig '/nameserver.*$/ d' /run/systemd/resolve/resolv.conf && echo 'nameserver 127.0.0.1' | sudo tee -a /run/systemd/resolve/resolv.conf
+    docker start pihole
+  elif [ "$1" = "off" ]; then
+    # Stop Pihole DNS and use plain DNS
+    sudo sed -r -i.orig '/nameserver.*$/ d' /run/systemd/resolve/resolv.conf && echo 'nameserver 1.1.1.1' | sudo tee -a /run/systemd/resolve/resolv.conf
+    docker stop pihole
+  elif [ "$1" = "start" ]; then
+    # Start Pihole and setup DNS
+    sudo killall -9 dnsmasq
+    docker-compose -f ~/proj/pihole/docker-compose.yml up -d
+    sudo sed -r -i.orig '/nameserver.*$/ d' /run/systemd/resolve/resolv.conf && echo 'nameserver 127.0.0.1' | sudo tee -a /run/systemd/resolve/resolv.conf
+  elif [ "$1" = "status" ]; then
+    # Print Debug info on Pihole and DNS
+    echo "-----------------Nameserver--------------"
+    grep nameserver /etc/resolv.conf
+    echo "------------------Docker-----------------"
+    docker ps --filter "name=pihole"
+    echo ""
+    docker logs --tail 10 pihole
+    echo ""
+    echo "---------------Cloudflared---------------"
+    if docker exec -it pihole dig +short @127.0.0.1 -p5053 example.com A | grep -q '93.184.216.34'; then
+      echo "Cloudflared Working"
+    else
+      echo "Cloudflared Stopped"
+    fi
+    echo ""
+    echo "-----------------Netstat-----------------"
 
-		# 67: DHCP, 53: DNS, 5053: Cloudflared DoH
-		sudo netstat -ltnpu | egrep ':67\s|:53\s|:5053'
-	fi
+    # 67: DHCP, 53: DNS, 5053: Cloudflared DoH
+    sudo netstat -ltnpu | grep -E ':67\s|:53\s|:5053'
+  fi
 }

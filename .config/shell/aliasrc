@@ -19,6 +19,7 @@ alias \
   ls="ls -hN --color=auto --group-directories-first" \
   la="ls -A --color=auto --group-directories-first" \
   ll="ls -hNlaF --color=auto --group-directories-first" \
+  lsd="ls -lhF --color=always | grep --color=never '^d'" \ # directories only
   grep="grep --color=auto" \
   diff="diff --color=auto"
 
@@ -38,6 +39,8 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
+alias ~="cd ~"
+alias -- -="cd -"
 
 alias g='git'
 alias gst='git status'
@@ -61,7 +64,7 @@ alias grm='git remote'
 alias gb='git branch'
 alias gm='git merge'
 alias gf='git fetch'
-alias dog='git log --all --decorate --oneline --graph'
+alias dog='git log --all --decorate --oneline --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an (%G?)>%Creset" --abbrev-commit'
 
 # Custom
 export WORK_DIR=/media/ritik/Ritik/cse_work

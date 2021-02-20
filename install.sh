@@ -62,8 +62,9 @@ fi
 ln -sf $MY_PATH/.config/nvim/init.vim $HOME/.vimrc
 
 # bash
-ln -sf $MY_PATH/.config/.bash_profile $HOME/.bash_profile
-ln -sf $MY_PATH/.config/.bashrc $HOME/.bashrc
+ln -sf $XDG_CONFIG_HOME/bash/.bash_profile $HOME/.bash_profile
+ln -sf $XDG_CONFIG_HOME/bash/.bashrc $HOME/.bashrc
+ln -sf $XDG_CONFIG_HOME/bash/.bash_logout $HOME/.bash_logout
 
 # Neovim (New vim!)
 sudo apt-get install neovim

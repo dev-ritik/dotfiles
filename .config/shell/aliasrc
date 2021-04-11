@@ -27,7 +27,8 @@ alias \
   sdn="sudo shutdown -h now" \
   z="zathura" \
   lock='gnome-screensaver-command -l' \
-  pls='sudo'
+  pls='sudo' \
+  xclip='xclip -selection c'
 
 alias \
   magit="nvim -c MagitOnly" \
@@ -66,9 +67,9 @@ alias gf='git fetch'
 alias dog='git log --all --decorate --oneline --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an (%G?)>%Creset" --abbrev-commit'
 
 # Custom
-export WORK_DIR=/media/ritik/Ritik/cse_work
+export WORK_DIR=/media/ritik/Ritik/projects
 alias work='cd $WORK_DIR'
-alias appi='cd $WORK_DIR/network/appi'
+alias appi='cd $WORK_DIR/backend/appi'
 
 mkcd() {
   mkdir "$1"

@@ -72,8 +72,8 @@ export PATH="$XDG_DATA_HOME/nodenv/bin:$PATH"
 
 # export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
 
-# export PATH=$PATH:/media/ritik/Ritik/cse_work/scripts/ModiScript/modiscript
-# export PATH=$PATH:/media/ritik/Ritik/cse_work/scripts/people/bin
+# export PATH=$PATH:/media/ritik/Ritik/projects/scripts/ModiScript/modiscript
+# export PATH=$PATH:/media/ritik/Ritik/projects/scripts/people/bin
 # export PATH="$PATH:/usr/lib/gcc/x86_64-linux-gnu/7"
 
 # EB

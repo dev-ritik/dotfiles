@@ -10,7 +10,7 @@ MY_PATH=$(pwd)
 if [ "$SHELL" != "/usr/bin/zsh" ]; then
   # Install zsh
   echo "Installing zsh"
-  sudo apt-get install zsh
+  sudo apt-get -y install zsh
   mkdir -p "$XDG_CACHE_HOME"/zsh
   touch "$XDG_CACHE_HOME"/zsh/history
   # Set zsh config location
@@ -71,9 +71,10 @@ ln -sf "$XDG_CONFIG_HOME"/bash/.bashrc "$HOME"/.bashrc
 ln -sf "$XDG_CONFIG_HOME"/bash/.bash_logout "$HOME"/.bash_logout
 
 # Neovim (New vim!)
-sudo apt-get install neovim
+sudo apt-get -y install neovim
 
 # install tldr (help pages) python client https://github.com/tldr-pages/tldr-python-client
+# sudo apt install -y python3-pip
 # pip3 install tldr
 
 # pyenv https://github.com/pyenv/pyenv
@@ -99,13 +100,13 @@ go build
 cp glow "$GOPATH"/bin
 
 # Highlight (formatted text converter)
-sudo apt install highlight
+sudo apt install -y highlight
 
 # Zathura (document viewer)
-sudo apt install zathura
+sudo apt install -y zathura
 
 # Newsboat (RSS/Atom feed reader)
-sudo apt install newsboat
+sudo apt install -y newsboat
 
 # sxiv (Image Viewer)
 sudo apt install sxiv

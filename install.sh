@@ -111,5 +111,8 @@ sudo apt install -y newsboat
 # sxiv (Image Viewer)
 sudo apt install sxiv
 
+# Gnome
 # Auto-hide the Dock, Click to minimise
 # gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize'
+sudo apt install gnome-tweaks
+# For things like ctrl key for pointer location

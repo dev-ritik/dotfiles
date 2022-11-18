@@ -22,8 +22,9 @@ if [ "$SHELL" != "/usr/bin/zsh" ]; then
 
   echo "Installing plugins"
   wget "https://github.com/MichaelAquilina/zsh-you-should-use/blob/master/you-should-use.plugin.zsh?raw=true" -O "$MY_PATH"/.config/zsh/plugins/you-should-use.plugin.zsh
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$MY_PATH"/.config/zsh/zsh-syntax-highlighting
-  git clone https://github.com/zsh-users/zsh-autosuggestions.git "$MY_PATH"/.config/zsh/zsh-autosuggestions
+  git clone --depth 1 https://github.com/romkatv/powerlevel10k.git "$MY_PATH"/.config/zsh/powerlevel10k
+  git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git "$MY_PATH"/.config/zsh/zsh-syntax-highlighting
+  git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions.git "$MY_PATH"/.config/zsh/zsh-autosuggestions
   echo ""
 
   echo "Re-login"
@@ -92,7 +93,7 @@ sudo apt-get -y install neovim
 
 # glow (markdown reader) https://github.com/charmbracelet/glow
 # shellcheck disable=SC2015
-git clone https://github.com/charmbracelet/glow.git /tmp/glow && cd /tmp/glow/ || {
+git clone --depth 1 https://github.com/charmbracelet/glow.git /tmp/glow && cd /tmp/glow/ || {
   echo "Failed"
   exit 1
 }

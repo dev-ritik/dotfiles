@@ -21,6 +21,7 @@ if [ "$SHELL" != "/usr/bin/zsh" ]; then
   echo "Default shell changed to zsh"
 
   echo "Installing plugins"
+  sudo apt install command-not-found # Installed in Ubuntu by default
   wget "https://github.com/MichaelAquilina/zsh-you-should-use/blob/master/you-should-use.plugin.zsh?raw=true" -O "$MY_PATH"/.config/zsh/plugins/you-should-use.plugin.zsh
   git clone --depth 1 https://github.com/romkatv/powerlevel10k.git "$MY_PATH"/.config/zsh/powerlevel10k
   git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git "$MY_PATH"/.config/zsh/zsh-syntax-highlighting

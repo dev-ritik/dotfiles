@@ -24,8 +24,8 @@ export HISTIGNORE="&:ls:ll:la:l.:pwd:exit:clear"
 export HISTIGNORE='pwd:cd:ls:ls -l:'       # ignore commands given
 
 # Basic auto/tab complete:
-compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
 autoload -U compinit
+compinit -d $XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION
 zstyle ':completion:*' menu select
 # Auto complete with case insenstivity
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
